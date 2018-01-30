@@ -1,6 +1,6 @@
 # Common Coding Challenge
 
-One Paragraph of project description goes here
+You ​should ​have ​a ​webpage ​that ​has ​two ​sections, ​each ​of ​which ​should ​take ​100% ​of ​the ​window’s height ​and ​width. ​The ​first ​section ​should ​have ​an ​input ​in ​which ​the ​user ​will enter ​their ​zip ​code.The ​second ​section ​should ​show ​the ​5-day ​forecast.
 
 ### Instructions
 
