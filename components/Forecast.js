@@ -1,93 +1,93 @@
-import React, {Component} from 'react';
+import React from 'react';
 import axios from 'axios';
 
 
 
 
+
 export default class Forecast extends React.Component {
+  constructor(props) {
+    super(props)
 
-    static async getInitialProps () {
-      const res = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?zip=${this.props.zipcode}&APPID=6f9e2f1d20bef61a529b8dbdb3fd82ae&units=metric`);
-      console.log(res.data)
-      return {weather: res.data};
-    }
-
-    render() {
-      const { weather } = this.props;
-
-      console.log(this.props)
-      return (
-        <div className="container--section-two">
-          <h1 className="header--section-two"> Here is your 5-day Forecast</h1>
-          <div>
-            <ul className="flex-wrapper">
-              <li className="flex-item">1{weather}</li>
-              <li className="flex-item">2</li>
-              <li className="flex-item">3</li>
-              <li className="flex-item">4</li>
-              <li className="flex-item">5</li>
-            </ul>
-          </div>
-          <style jsx>{`
-
-            body {
-              height: 100vh;
-              width: 100vw;
-            }
-
-            .container--section-two{
-              margin-top: 500px;
-            }
-
-            .header--section-two{
-              color: #fff;
-              font-family: 'Tiempos Headline', sans-serif;
-              font-style: normal;
-              font-weight: 300;
-            }
-
-            .flex-wrapper {
-              padding: 0;
-              margin: 0;
-              list-style: none;
-
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: -webkit-flex;
-              display: flex;
-
-              -webkit-flex-flow: row wrap;
-              justify-content: space-around;
-            }
-
-            .flex-item {
-              background: rgba(255, 255, 255, 0.4);
-              padding: 5px;
-              width: 200px;
-              height: 250px;
-              margin-top: 10px;
-
-              line-height: 150px;
-              color: #fff;
-              font-weight: bold;
-              font-size: 3em;
-              text-align: center;
-              box-shadow: 0 2px 8px 0 #fff;
-            }
-
-            div {
-              margin-top: 60px;
-              margin-bottom: 250px;
-            }
-
-            @media (max-width: 600px) {
-              div {
-                background: blue;
-              }
-            }
-        `}</style>
-        </div>
-      )
+    this.state = {
+      weather: { list:[] }
     }
   }
+
+
+  componentWillMount = async() => {
+      this.lookupWeatherAt(this.props.zipcode);
+    }
+
+  componentWillReceiveProps = async(nextProps) => {
+    this.lookupWeatherAt(nextProps.zipcode);
+  }
+
+  lookupWeatherAt = async(zipcode) => {
+      try{
+        console.log('Looking up weather at zipcode:', zipcode);
+        let weather = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?zip=${zipcode}&APPID=6f9e2f1d20bef61a529b8dbdb3fd82ae&units=imperial`)
+        console.log('Retrieved weather at zipcode', zipcode, weather.data);
+        this.setState({ weather: weather.data})
+      }
+      catch(er){
+        console.log('Error retrieving weather', er.message);
+        this.setState({ error: er.message });
+      }
+    }
+
+
+  render() {
+    return (
+        <div className="wrapper">
+        <div>
+          <h4 className="header--section-two">Here is your forecast</h4>
+        </div>
+        <div className="container--section-two">
+          <h4>{this.state.weather.city.name}</h4>
+          {this.state.weather.list.map((item, index) => {
+           return <div className="content" key={index}>
+              <p>{item.dt_txt} <br />
+              Description: {item.weather[0].description} <br />
+              Temperature: {item.main.temp} <br />
+              Max Temp: {item.main.temp_max} <br />
+              Humidity: {item.main.humidity}</p>
+            </div>;
+            })
+          }
+        </div>
+        <style jsx>{`
+          .header--section-two{
+            font-family: 'Tiempos Headline', 'sans-serif';
+            letter-spacing: 1.2px;
+            font-size: 2rem;
+            color: rgb(221, 105, 41);
+          }
+
+          .wrapper{
+            margin-top: 400px;
+          }
+
+          .container--section-two{
+            height: 450px;
+            width: 910px;
+            border: 1px solid rgb(78, 93, 107);
+            margin-top: 20px;
+            margin-bottom: 40px;
+            background: rgb(78, 93, 107);
+            overflow: scroll;
+          }
+
+          @media screen and (max-width : 320px) {
+
+          }
+
+          @media screen and (max-width : 800px) {
+
+
+          }
+        `}</style>
+      </div>
+    )
+  }
+}

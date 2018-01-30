@@ -1,39 +1,44 @@
 import React from 'react';
 
+
 import Forecast from '../components/Forecast';
 
 
 
 export default class Form extends React.Component {
-    constructor(props) {
-      super(props)
+  constructor(props) {
+    super(props)
 
-      this.state = {
-        zipCode: ''
-      }
+    this.state = {
+      zipcode: ''
+    }
+  }
+
+  onChange = e => {
+      this.setState({ zipcode: e.target.value })
     }
 
+  handleSubmit = e => {
+    e.preventDefault()
+    this.setState({zipcode: ''});
+  }
 
-    handleSubmit = e => {
-      e.preventDefault()
-      this.setState({zipCode: ''});
-    }
 
-
-    render() {
-      const{ zipCode } = this.state
-
-      return (
-        <div className="container">
+  render() {
+    const{ zipcode } = this.state
+    console.log(this.state)
+    return (
+      <div className="container">
+        <div className="wrapper">
           <div className="form-group">
-            <h3 className="header">Enter your Zipcode</h3>
+            <h3 className="header">Enter your zipcode</h3>
             <input
             type="text"
             className="form-control"
-            placeholder="Zipcode"
+            placeholder="zipcode"
             id="inputDefault"
-            value={this.state.zipCode}
-            onChange={e => this.setState({zipCode: e.target.value})}
+            value={this.state.zipcode}
+            onChange={this.onChange}
             />
           </div>
           <button type="button" className="btn btn-success" onClick={this.handleSubmit}>Submit</button>
@@ -51,14 +56,21 @@ export default class Form extends React.Component {
             div {
               margin-top: 300px;
             }
-            @media (max-width: 600px) {
-              div {
-                background: blue;
-              }
+
+
+            @media screen and (max-width : 320px) {
+
             }
+
+            @media screen and (max-width : 800px) {
+
+
+            }
+
         `}</style>
-        <Forecast  zipcode={this.state.zipCode} />
+          <Forecast  zipcode={this.state.zipcode} />
         </div>
-      )
-    }
+      </div>
+    )
   }
+}

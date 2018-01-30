@@ -32,6 +32,8 @@ To run the program, from the terminal, type the following command(s):
 Hot Reloading
 
 ```
+npm run build
+
 npm run dev
 
 ```
@@ -39,10 +41,10 @@ npm run dev
 
 ## Built With
 
-* [Next.js](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [React](https://maven.apache.org/) - The web framework used
-* [axios](https://rometools.github.io/rome/) - Resource for API calls
-* [bootswatch](https://rometools.github.io/rome/) - Used to generate UI styling
+* [Next.js](https://github.com/zeit/next.js/) - The web framework used
+* [React](https://reactjs.org/) - A JavaScript library for building user interfaces
+* [axios](https://www.npmjs.com/package/axios) - Promise based HTTP client for the browser and node.js
+* [bootswatch](https://bootswatch.com/) - Used to generate UI styling
 
 
 ## Authors
